@@ -14,6 +14,7 @@ source:
   sha256: f7a6190e25296a5e01896c501fad3fc8904ee65ceb72222a4306e18a0cea56a0
   patches:
     - sympy-1.14.patch
+    - setuptools82.patch
 
 build:
   number: 3

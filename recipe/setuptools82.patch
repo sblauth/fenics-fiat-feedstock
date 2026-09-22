@@ -1,0 +1,36 @@
+From 44b78c2dfba66123c68dc254fb0ab16efd1dca1d Mon Sep 17 00:00:00 2001
+From: Sebastian Blauth <sebastian.blauth@itwm.fraunhofer.de>
+Date: Mon, 23 Feb 2026 13:56:54 +0100
+Subject: [PATCH] replace pkg_resources with importlib.metadata
+
+---
+ FIAT/__init__.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/FIAT/__init__.py b/FIAT/__init__.py
+index 8e60bb2..2ec808e 100644
+--- a/FIAT/__init__.py
++++ b/FIAT/__init__.py
+@@ -2,8 +2,6 @@
+ evaluating arbitrary order Lagrange and many other elements.
+ Simplices in one, two, and three dimensions are supported."""
+ 
+-import pkg_resources
+-
+ # Import finite element classes
+ from FIAT.finite_element import FiniteElement, CiarletElement  # noqa: F401
+ from FIAT.argyris import Argyris
+@@ -43,7 +41,9 @@ from FIAT.quadrature_schemes import create_quadrature     # noqa: F401
+ from FIAT.reference_element import ufc_cell, ufc_simplex  # noqa: F401
+ from FIAT.hdivcurl import Hdiv, Hcurl                     # noqa: F401
+ 
+-__version__ = pkg_resources.get_distribution("fenics-fiat").version
++import importlib.metadata
++
++__version__ = importlib.metadata.version("fenics-fiat")
+ 
+ # List of supported elements and mapping to element classes
+ supported_elements = {"Argyris": Argyris,
+-- 
+2.47.3
+
