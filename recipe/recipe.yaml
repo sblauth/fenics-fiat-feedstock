@@ -1,55 +1,59 @@
-{% set version = "2019.2.0" %}
-{% set date = "20210419" %}
-{% set commit = "7d418fa0a372ac6f5e103533ab77ad6a9fac764c" %}
+schema_version: 1
+
+context:
+  version: "2019.2.0"
+  date: 20210419
+  commit: 7d418fa0a372ac6f5e103533ab77ad6a9fac764c
 
 package:
   name: fenics-fiat
-  version: {{ version }}.dev{{ date }}
+  version: ${{ version }}.dev${{ date }}
 
 source:
-  url: https://github.com/fenics/fiat/archive/{{ commit }}.tar.gz
+  url: https://github.com/fenics/fiat/archive/${{ commit }}.tar.gz
   sha256: f7a6190e25296a5e01896c501fad3fc8904ee65ceb72222a4306e18a0cea56a0
   patches:
     - sympy-1.14.patch
 
 build:
-  number: 2
+  number: 3
   noarch: python
-  script: {{ PYTHON }} -m pip install --no-deps . -vv
+  script: ${{ PYTHON }} -m pip install --no-deps . -vv
 
 requirements:
   host:
-    - python {{ python_min }}
+    - python ${{ python_min }}.*
     - pip
     - setuptools
   run:
-    - python >={{ python_min }}
+    - python >=${{ python_min }}
     - numpy
     - setuptools
     - sympy >=1
-test:
-  requires:
-    - pip
-    - python {{ python_min }}
-  imports:
-    - FIAT
-  commands:
-    - pip check
+
+tests:
+  - python:
+      imports:
+        - FIAT
+      pip_check: true
+      python_version:
+        - ${{ python_min }}.*
+        - "*"
+
 about:
-  home: https://www.fenicsproject.org
   license: LGPL-3.0-or-later
   license_file:
     - COPYING
     - COPYING.LESSER
-  summary: 'The FInite element Automatic Tabulator FIAT supports generation of arbitrary order instances of the Lagrange elements on lines, triangles, and tetrahedra.'
-
+  summary: The FInite element Automatic Tabulator FIAT supports generation of arbitrary order instances of the Lagrange elements on lines, triangles, and tetrahedra.
   description: |
     FEniCS is a collection of free software for automated, efficient solution of differential equations
     (https://fenicsproject.org). It provides C++ and Python interfaces, and creates effecient solvers via
     expression of finite variational statements in a domain-specific language that are transformed and
     just-in-time compiled into efficient implementations.
-  doc_url: https://fenics.readthedocs.io
-  dev_url: https://bitbucket.org/fenics-project/
+  homepage: https://www.fenicsproject.org
+  repository: https://bitbucket.org/fenics-project/
+  documentation: https://fenics.readthedocs.io
 
 extra:
   recipe-maintainers:
